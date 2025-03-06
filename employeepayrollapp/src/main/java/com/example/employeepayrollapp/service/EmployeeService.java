@@ -1,7 +1,9 @@
 package com.example.employeepayrollapp.service;
 
+import com.example.employeepayrollapp.DTO.EmployeeDTO;
 import com.example.employeepayrollapp.model.Employee;
 import com.example.employeepayrollapp.repository.EmployeeRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,11 +22,11 @@ public class EmployeeService {
         return repository.findById(id).orElse(null);
     }
 
-    public Employee createEmployee(Employee employee) {
+    public Employee createEmployee(@Valid EmployeeDTO employee) {
         return repository.save(employee);
     }
 
-    public Employee updateEmployee(Long id, Employee updatedEmployee) {
+    public Employee updateEmployee(Long id, @Valid EmployeeDTO updatedEmployee) {
         Employee employee = repository.findById(id).orElse(null);
         if (employee != null) {
             employee.setName(updatedEmployee.getName());
