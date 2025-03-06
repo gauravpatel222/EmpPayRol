@@ -14,5 +14,37 @@ import java.util.List;
 public class EmployeeController {
     //UC1 --> initialized project
 
+
+    //UC2 --> added REST API's
+    @Autowired
+    private EmployeeService service;
+
+    @GetMapping("/all")//http://localhost:8080/employeepayrollservice/all
+    public List<Employee> getAllEmployees() {
+        return service.getAllEmployees();
+    }
+
+    @GetMapping("/get/{id}")//http://localhost:8080/employeepayrollservice/get/1
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        Employee employee = service.getEmployeeById(id);
+        return employee != null ? ResponseEntity.ok(employee) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/create")//http://localhost:8080/employeepayrollservice/create
+    public Employee createEmployee(@Valid @RequestBody Employee employee) {
+        return service.createEmployee(employee);
+    }
+
+    @PutMapping("/update/{id}")//http://localhost:8080/employeepayrollservice/update/1
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody Employee employee) {
+        Employee updatedEmployee = service.updateEmployee(id, employee);
+        return updatedEmployee != null ? ResponseEntity.ok(updatedEmployee) : ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/delete/{id}")//http://localhost:8080/employeepayrollservice/delete/1
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+        service.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 
